@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "crud-drf"
+version = "0.1.0"
+description = ""
+authors = ["Shrine Sabu <shrine02sabu@gmail.com>"]
+readme = "README.md"
+packages = [{include = "crud_drf"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
