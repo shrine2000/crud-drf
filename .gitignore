@@ -1,13 +1,5 @@
 /.idea
-
 __pycache__/
-*.pyc
-*.pyo
-*.pyd
-*.swp
-*.swo
 *.sqlite3
-
 env/
-
 db.sqlite3
