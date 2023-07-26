@@ -30,7 +30,7 @@ def vehicle(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['PUT', 'PATCH'])
+@api_view(['PUT', 'PATCH', 'DELETE'])
 def vehicle_detail(request, pk=None):
     if request.method == 'PUT':
         try:
@@ -54,3 +54,12 @@ def vehicle_detail(request, pk=None):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         else:
             return Response({"detail": "Not found"}, status=status.HTTP_404_NOT_FOUND)
+
+    elif request.method == 'DELETE':
+        try:
+            car = Car.objects.get(pk=pk)
+        except Car.DoesNotExist:
+            return Response({'message': 'Car deleted successfully'}, status=status.HTTP_404_NOT_FOUND)
+        car.delete()
+        return Response({'message': 'Car deleted successfully'}, status=status.HTTP_204_NO_CONTENT)
+
