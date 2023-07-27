@@ -6,21 +6,16 @@ from .serializers import CarSerializer
 
 
 # https://www.bezkoder.com/django-rest-api/
-@api_view(['GET'])
-def index(request):
-    car = {
-        'suv': ['Innova', 'Endeavour', 'XUV700'],
-        'sedan': ['honda city', 'VW Vitrus', 'Verna'],
-        'hatchback': ['Polo', 'Swift']
-    }
-    return Response(car)
-
 
 @api_view(['GET', 'POST'])
 def vehicle(request):
     if request.method == 'GET':
-        cars = Car.objects.all()  # returns query set
-        serializer = CarSerializer(cars, many=True)  # many=True because we are using taking more than one object
+        make = request.GET.get('make')
+        if make:
+            cars = Car.objects.filter(make=make)
+        else:
+            cars = Car.objects.all()
+        serializer = CarSerializer(cars, many=True)
         return Response(serializer.data)
     elif request.method == 'POST':
         serializer = CarSerializer(data=request.data)
@@ -44,6 +39,7 @@ def vehicle_detail(request, pk=None):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
     elif request.method == 'PATCH':
         if pk is not None:
             car = Car.objects.get(pk=pk)
@@ -62,4 +58,3 @@ def vehicle_detail(request, pk=None):
             return Response({'message': 'Car deleted successfully'}, status=status.HTTP_404_NOT_FOUND)
         car.delete()
         return Response({'message': 'Car deleted successfully'}, status=status.HTTP_204_NO_CONTENT)
-
