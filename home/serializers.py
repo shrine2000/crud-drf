@@ -14,3 +14,8 @@ class CarSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("Year must be between 1900 and 2025")
         return value
 
+    def update(self, instance, validated_data):
+        instance.make = validated_data.get('make', instance.make)
+        instance.year = validated_data.get('year', instance.year)
+        instance.save()
+        return instance
