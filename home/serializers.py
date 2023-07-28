@@ -19,3 +19,7 @@ class CarSerializer(serializers.ModelSerializer):
         instance.year = validated_data.get('year', instance.year)
         instance.save()
         return instance
+
+    def create(self, validated_data):
+        car = Car.objects.create(**validated_data)
+        return car
